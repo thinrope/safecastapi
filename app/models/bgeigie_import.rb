@@ -83,10 +83,6 @@ class BgeigieImport < MeasurementImport # rubocop:disable Metrics/ClassLength
     delete_tmp_file
   end
 
-  def process_in_background
-    Delayed::Job.enqueue ProcessBgeigieImportJob.new(id)
-  end
-
   def approve!
     update_column(:approved, true)
     Delayed::Job.enqueue FinalizeBgeigieImportJob.new(id)
