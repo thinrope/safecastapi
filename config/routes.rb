@@ -28,6 +28,9 @@ Safecast::Application.routes.draw do
         get :kml
       end
     end
+
+    resources :air_imports
+    
     resources :devices do
       resources :measurements, only: :index
     end
