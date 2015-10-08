@@ -296,8 +296,8 @@ class BgeigieImport < MeasurementImport # rubocop:disable Metrics/ClassLength
     # algorithm described at http://notinthemanual.blogspot.com/2008/07/convert-nmea-latitude-longitude-to.html
 
     # protect against buggy nmea values that have negative values
-    latitude_nmea = b.latitude_nmea.abs
-    longitude_nmea = b.longitude_nmea.abs
+    latitude_nmea = latitude_nmea.abs
+    longitude_nmea = longitude_nmea.abs
 
     lat_sign = 1
     lat_sign = -1 if b.north_south_indicator == 'S'
