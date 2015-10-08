@@ -5,7 +5,7 @@ class Device < ActiveRecord::Base
 
   validates :manufacturer, presence: true
   validates :model, presence: true, uniqueness: { scope: :manufacturer }
-  validates :sensor, presence: true, uniqueness: { scope: %i(model manufacturer) }
+  validates :sensor, presence: true, uniqueness: { scope: %i(model manufacturer device_group_id) }
 
   def self.filter(query)
     where("lower(manufacturer) LIKE :query
