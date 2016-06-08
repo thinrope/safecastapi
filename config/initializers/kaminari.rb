@@ -1,3 +1,7 @@
+# This is monkey patch to define `paginate_without_count`.
+# This method tries not to issue 'count' query.
+#
+# See https://github.com/amatsuda/kaminari/pull/681 for detail.
 module Kaminari
   module ActionViewExtension
     def paginate_without_count(scope, options = {}, &_block)
