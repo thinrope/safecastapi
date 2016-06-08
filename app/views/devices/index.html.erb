@@ -55,7 +55,7 @@
       <%- end -%>
     </tbody>
   </table>
-  <%= paginate @devices, theme: 'twitter-bootstrap' -%>
+  <%= paginate_without_count @devices, theme: 'twitter-bootstrap' -%>
 <%- end -%>
 <div class="spacer"></div>
 <%= current_page_api_example :devices_url %>

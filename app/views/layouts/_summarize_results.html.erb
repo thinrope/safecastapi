@@ -1,5 +1,7 @@
 <div class="well">
-  <%- unless controller_name == 'measurements' -%>
+  <%# disablee because page_entries_info issues 'SELECT COUNT(*) ...'
+      query which is slow on PostgreSQL. %>
+  <%- if false -%>
     <%= page_entries_info collection %>
     <%= number_with_delimiter collection.count %> <%= t('.results') %>.
   <%- end -%>

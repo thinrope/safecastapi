@@ -91,8 +91,8 @@
           <td>
             <%= link_to [bgeigie_import.becomes(MeasurementImport), :measurements] do %>
               <%= number_with_delimiter bgeigie_import.measurements_count %>
-            <%- end -%>
           </td>
+            <%- end -%>
           <td>
             <%= t("bgeigie_imports.states.#{bgeigie_import.status}") %>
             <%- if !bgeigie_import.approved? -%>
@@ -104,7 +104,7 @@
     </tbody>
   </table>
 
-  <%= paginate @bgeigie_imports, theme: 'twitter-bootstrap' -%>
+  <%= paginate_without_count @bgeigie_imports, theme: 'twitter-bootstrap' -%>
 <%- end -%>
 <div class="spacer"></div>
 <%= current_page_api_example :bgeigie_imports_url %>
