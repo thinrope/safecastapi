@@ -1,10 +1,8 @@
 class DashboardsController < ApplicationController
   def show
-    if !user_signed_in?
-      render 'home/show'
-      return
-    end
-    @unapproved_bgeigie_imports = BgeigieImport.unapproved
+    return render 'home/show' unless current_user
+    @unapproved_bgeigie_import_count =
+      BgeigieImport.unapproved.count if current_user.moderator?
   end
 
   alias_method :new, :show
