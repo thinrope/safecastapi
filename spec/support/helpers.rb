@@ -1,35 +1,35 @@
 module Helpers
   def create_air_v0_gas_sensor(air_unit, details) # rubocop:disable Metric/AbcSize
     air_group = air_unit.device_groups.build
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 1, unit: 'V', sensor: 'working electrode voltage'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 2, unit: 'V', sensor: 'auxiliary electrode voltage'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 3, unit: 'ppb',   sensor: 'gas concentration'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 4, unit: 'ppb',   sensor: 'gas concentration, lowpass filtered'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 0, unit: 'V', sensor: 'working electrode voltage'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 1, unit: 'V', sensor: 'auxiliary electrode voltage'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 2, unit: 'ppb',   sensor: 'gas concentration'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 3, unit: 'ppb',   sensor: 'gas concentration, lowpass filtered'))
     @current_air_v0_device_id += 4
   end
 
   def create_air_v0_temperature_sensor(air_unit, details)
     air_group = air_unit.device_groups.build
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 1, unit: 'C', sensor: 'temperature value'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 2, unit: 'C', sensor: 'temperature value, lowpass filtered'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 0, unit: 'C', sensor: 'temperature value'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 1, unit: 'C', sensor: 'temperature value, lowpass filtered'))
     @current_air_v0_device_id += 2
   end
 
   def create_air_v0_particle_sensor(air_unit, details) # rubocop:disable Metric/AbcSize, Metric/MethodLength
     air_group = air_unit.device_groups.build
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 1, unit: 'ug/m^3', sensor: 'PM 1 data'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 2, unit: 'ug/m^3', sensor: 'PM 2.5 data'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 3, unit: 'ug/m^3', sensor: 'PM 10 data'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 4, unit: 'ml/s',   sensor: 'sample flow rate'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 5, unit: 's',      sensor: 'sample period'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 6, unit: 'units 1/3 ms', sensor: 'mean time of flight bin1'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 7, unit: 'units 1/3 ms', sensor: 'mean time of flight bin3'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 8, unit: 'units 1/3 ms', sensor: 'mean time of flight bin5'))
-    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 9, unit: 'units 1/3 ms', sensor: 'mean time of flight bin7'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 0, unit: 'ug/m^3', sensor: 'PM 1 data'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 1, unit: 'ug/m^3', sensor: 'PM 2.5 data'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 2, unit: 'ug/m^3', sensor: 'PM 10 data'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 3, unit: 'ml/s',   sensor: 'sample flow rate'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 4, unit: 's',      sensor: 'sample period'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 5, unit: 'units 1/3 ms', sensor: 'mean time of flight bin1'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 6, unit: 'units 1/3 ms', sensor: 'mean time of flight bin3'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 7, unit: 'units 1/3 ms', sensor: 'mean time of flight bin5'))
+    air_group.devices.build(details.merge(id: @current_air_v0_device_id + 8, unit: 'units 1/3 ms', sensor: 'mean time of flight bin7'))
     @current_air_v0_device_id += 9
 
     16.times do |i|
-      air_group.devices.build(details.merge(id: @current_air_v0_device_id + i + 1, unit: 'ppm', sensor: "histogram count, bin #{i + 1}"))
+      air_group.devices.build(details.merge(id: @current_air_v0_device_id + i, unit: 'ppm', sensor: "histogram count, bin #{i}"))
     end
     @current_air_v0_device_id += 16
   end

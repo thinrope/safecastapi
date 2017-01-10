@@ -1,13 +1,13 @@
 require 'securerandom'
 
 class AirImport < MeasurementImport
-  DATA_MESSAGE = "dat"
+  DATA_MESSAGE = 'dat'.freeze
 
   belongs_to :user
 
   has_many :air_logs
 
-  store :status_details, accessors: [ :measurements_added ]
+  store :status_details, accessors: [:measurements_added]
 
   def import_measurements
     connection = ActiveRecord::Base.connection.raw_connection
@@ -42,35 +42,36 @@ class AirImport < MeasurementImport
 
   private
 
-  def process_message(message)
-    return unless message["msg"] == DATA_MESSAGE
+  def process_message(message) # rubocop:disable Metric/MethodLength
+    return unless message['msg'] == DATA_MESSAGE
 
-    gps = message["gps"]
+    gps = message['gps']
     gps_attributes = {
-        captured_at: Time.parse(gps['date']),
-        latitude: gps['lat'],
-        longitude: gps['lon'],
-        altitude: gps['alt']
+      captured_at: Time.parse(gps['date']),
+      latitude: gps['lat'],
+      longitude: gps['lon'],
+      altitude: gps['alt']
     }
 
-    process_measurements(gps_attributes, message["gas"])
-    process_measurements(gps_attributes, message["tmp"])
-    process_measurements(gps_attributes, message["pm"])
+    process_measurements(gps_attributes, message['gas'])
+    process_measurements(gps_attributes, message['tmp'])
+    process_measurements(gps_attributes, message['pm'])
   end
 
-  def process_measurements(gps_attributes, measurements)
-    measurements.each do |measurements|
-      measurements['ids'].each do |channel, ids|
+  def process_measurements(gps_attributes, measurements) # rubocop:disable Metric/MethodLength
+    measurements.each do |measurement|
+      measurement['ids'].each do |channel, ids|
         [*ids].each_with_index do |id, i|
           device = Device.find(id)
-          measurement_value = measurements[channel]
+          measurement_value = measurement[channel]
           values = [*measurement_value]
-          air_logs.create(gps_attributes.merge(
-                              device_id: id,
-                              measurement: values[i],
-                              unit: device.unit,
-                          ))
-
+          air_logs.create(
+            gps_attributes.merge(
+              device_id: id,
+              measurement: values[i],
+              unit: device.unit
+            )
+          )
         end
       end
     end

@@ -1,4 +1,4 @@
 Fabricator(:air_import) do
-  source File.new(Rails.root.join("spec/fixtures/air#{Fabricate.sequence(:air_import_sequence)}.log"))
+  source Rails.root.join('spec/fixtures/air0.log').open('r')
   user
 end

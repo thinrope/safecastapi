@@ -4,7 +4,7 @@ class Device < ActiveRecord::Base
   # has_and_belongs_to_many :maps
 
   validates :manufacturer, presence: true
-  validates :model, presence: true, uniqueness: { scope: :manufacturer }
+  validates :model, presence: true
   validates :sensor, presence: true, uniqueness: { scope: %i(model manufacturer device_group_id) }
 
   def self.filter(query)
