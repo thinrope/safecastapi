@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.2
--- Dumped by pg_dump version 9.5.2
+-- Dumped from database version 9.5.5
+-- Dumped by pg_dump version 9.5.5
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -104,6 +104,48 @@ CREATE SEQUENCE admins_id_seq
 --
 
 ALTER SEQUENCE admins_id_seq OWNED BY admins.id;
+
+
+--
+-- Name: air_logs; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE air_logs (
+    id integer NOT NULL,
+    device_tag character varying(255),
+    device_serial_id character varying(255),
+    device_id integer,
+    captured_at timestamp without time zone,
+    measurement double precision,
+    unit character varying(255),
+    latitude double precision,
+    longitude double precision,
+    altitude double precision,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    air_import_id integer,
+    computed_location postgis.geography(Point,4326),
+    md5sum character varying(255)
+);
+
+
+--
+-- Name: air_logs_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE air_logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: air_logs_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE air_logs_id_seq OWNED BY air_logs.id;
 
 
 --
@@ -226,6 +268,72 @@ ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
 
 
 --
+-- Name: device_groups; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE device_groups (
+    id integer NOT NULL,
+    device_unit_id integer NOT NULL,
+    manufacturer character varying(255),
+    model character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: device_groups_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE device_groups_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: device_groups_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE device_groups_id_seq OWNED BY device_groups.id;
+
+
+--
+-- Name: device_units; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE device_units (
+    id integer NOT NULL,
+    station_id integer NOT NULL,
+    manufacturer character varying(255),
+    model character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: device_units_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE device_units_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: device_units_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE device_units_id_seq OWNED BY device_units.id;
+
+
+--
 -- Name: devices; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -236,7 +344,9 @@ CREATE TABLE devices (
     sensor character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    measurements_count integer
+    measurements_count integer,
+    device_group_id integer,
+    unit character varying(255)
 );
 
 
@@ -467,11 +577,7 @@ CREATE TABLE measurements (
     captured_at timestamp without time zone,
     height integer,
     surface character varying(255),
-    radiation character varying(255),
-    devicetype_id character varying(255),
-    sensor_id integer,
-    station_id integer,
-    channel_id integer
+    radiation character varying(255)
 );
 
 
@@ -540,6 +646,38 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: stations; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE stations (
+    id integer NOT NULL,
+    manufacturer character varying(255),
+    model character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: stations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE stations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: stations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE stations_id_seq OWNED BY stations.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -600,6 +738,13 @@ ALTER TABLE ONLY admins ALTER COLUMN id SET DEFAULT nextval('admins_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY air_logs ALTER COLUMN id SET DEFAULT nextval('air_logs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY bgeigie_logs ALTER COLUMN id SET DEFAULT nextval('bgeigie_logs_id_seq'::regclass);
 
 
@@ -615,6 +760,20 @@ ALTER TABLE ONLY configurables ALTER COLUMN id SET DEFAULT nextval('configurable
 --
 
 ALTER TABLE ONLY delayed_jobs ALTER COLUMN id SET DEFAULT nextval('delayed_jobs_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY device_groups ALTER COLUMN id SET DEFAULT nextval('device_groups_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY device_units ALTER COLUMN id SET DEFAULT nextval('device_units_id_seq'::regclass);
 
 
 --
@@ -670,6 +829,13 @@ ALTER TABLE ONLY rails_admin_histories ALTER COLUMN id SET DEFAULT nextval('rail
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY stations ALTER COLUMN id SET DEFAULT nextval('stations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -679,6 +845,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 ALTER TABLE ONLY admins
     ADD CONSTRAINT admins_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: air_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY air_logs
+    ADD CONSTRAINT air_logs_pkey PRIMARY KEY (id);
 
 
 --
@@ -703,6 +877,22 @@ ALTER TABLE ONLY configurables
 
 ALTER TABLE ONLY delayed_jobs
     ADD CONSTRAINT delayed_jobs_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: device_groups_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY device_groups
+    ADD CONSTRAINT device_groups_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: device_units_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY device_units
+    ADD CONSTRAINT device_units_pkey PRIMARY KEY (id);
 
 
 --
@@ -759,6 +949,14 @@ ALTER TABLE ONLY measurements
 
 ALTER TABLE ONLY rails_admin_histories
     ADD CONSTRAINT rails_admin_histories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: stations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY stations
+    ADD CONSTRAINT stations_pkey PRIMARY KEY (id);
 
 
 --
@@ -931,14 +1129,14 @@ CREATE INDEX index_measurements_on_user_id ON measurements USING btree (user_id)
 
 
 --
--- Name: index_measurements_on_user_id_and_captured_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_measurements_on_user_id_and_captured_at; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_measurements_on_user_id_and_captured_at ON measurements USING btree (user_id, captured_at);
 
 
 --
--- Name: index_measurements_on_value_and_unit; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_measurements_on_value_and_unit; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_measurements_on_value_and_unit ON measurements USING btree (value, unit);
@@ -1110,6 +1308,8 @@ INSERT INTO schema_migrations (version) VALUES ('20130705092519');
 INSERT INTO schema_migrations (version) VALUES ('20140718095222');
 
 INSERT INTO schema_migrations (version) VALUES ('20150919060031');
+
+INSERT INTO schema_migrations (version) VALUES ('20151007060031');
 
 INSERT INTO schema_migrations (version) VALUES ('20160208190731');
 
