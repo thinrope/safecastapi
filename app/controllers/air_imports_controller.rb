@@ -1,10 +1,8 @@
 class AirImportsController < ApplicationController
   def create
-    @import = AirImport.new(params[:air_import])
+    @import = AirImport.new(air_import_params)
     @import.user = current_user
-    if @import.save
-      @import.process_in_background
-    end
+    @import.process_in_background if @import.save
     respond_with @import
   end
 
@@ -14,7 +12,13 @@ class AirImportsController < ApplicationController
 
   def show
     @import = AirImport.find(params[:id])
-    render(:partial => params[:partial]) and return if params[:partial].present?
+    return render(partial: params[:partial]) if params[:partial].present?
     respond_with @import
+  end
+
+  private
+
+  def air_import_params
+    params.require(:air_import).permit!
   end
 end
