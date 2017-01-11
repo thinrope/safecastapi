@@ -1,5 +1,5 @@
 module Helpers
-  def create_air_v0_gas_sensor(air_unit, details) # rubocop:disable Metric/AbcSize
+  def create_air_v0_gas_sensor(air_unit, details) # rubocop:disable Metrics/AbcSize
     air_group = air_unit.device_groups.build
     air_group.devices.build(details.merge(id: @current_air_v0_device_id + 0, unit: 'V', sensor: 'working electrode voltage'))
     air_group.devices.build(details.merge(id: @current_air_v0_device_id + 1, unit: 'V', sensor: 'auxiliary electrode voltage'))
@@ -15,7 +15,7 @@ module Helpers
     @current_air_v0_device_id += 2
   end
 
-  def create_air_v0_particle_sensor(air_unit, details) # rubocop:disable Metric/AbcSize, Metric/MethodLength
+  def create_air_v0_particle_sensor(air_unit, details) # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     air_group = air_unit.device_groups.build
     air_group.devices.build(details.merge(id: @current_air_v0_device_id + 0, unit: 'ug/m^3', sensor: 'PM 1 data'))
     air_group.devices.build(details.merge(id: @current_air_v0_device_id + 1, unit: 'ug/m^3', sensor: 'PM 2.5 data'))
@@ -34,7 +34,7 @@ module Helpers
     @current_air_v0_device_id += 16
   end
 
-  def create_air_v0_station # rubocop:disable Metric/MethodLength
+  def create_air_v0_station # rubocop:disable Metrics/MethodLength
     air_station = Station.new(id: 1)
     air_unit = air_station.device_units.build(id: 1)
 
