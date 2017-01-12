@@ -42,7 +42,7 @@ class AirImport < MeasurementImport
 
   private
 
-  def process_message(message) # rubocop:disable Metric/MethodLength
+  def process_message(message) # rubocop:disable Metrics/MethodLength
     return unless message['msg'] == DATA_MESSAGE
 
     gps = message['gps']
