@@ -577,7 +577,8 @@ CREATE TABLE measurements (
     captured_at timestamp without time zone,
     height integer,
     surface character varying(255),
-    radiation character varying(255)
+    radiation character varying(255),
+    raw_payload jsonb DEFAULT '{}'::jsonb NOT NULL
 );
 
 
@@ -1371,4 +1372,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160614042818');
 INSERT INTO schema_migrations (version) VALUES ('20160615215212');
 
 INSERT INTO schema_migrations (version) VALUES ('20170112034228');
+
+INSERT INTO schema_migrations (version) VALUES ('20170112051103');
 

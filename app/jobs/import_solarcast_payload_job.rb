@@ -26,12 +26,18 @@ class ImportSolarcastPayloadJob
 
   def measurement_attributes(hsh, json)
     {
+      user: user,
       captured_at: Time.parse(hsh['captured_at']),
       location: format('POINT(%s %s)', hsh['longitude'], hsh['latitude']),
       value: 0.0,
       unit: 'N/A',
-      md5sum: Digest::MD5.hexdigest(json)
+      md5sum: Digest::MD5.hexdigest(json),
+      raw_payload: json
     }
+  end
+
+  def user
+    solarcast_payload.try!(:user)
   end
 
   def payload
