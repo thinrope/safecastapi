@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :bgeigie_imports
   has_many :measurements
   has_many :maps
+  has_many :solarcast_payloads
 
   scope :moderator, -> { where(moderator: true) }
 

@@ -646,6 +646,38 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: solarcast_payloads; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE solarcast_payloads (
+    id integer NOT NULL,
+    user_id integer NOT NULL,
+    payload bytea NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: solarcast_payloads_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE solarcast_payloads_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: solarcast_payloads_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE solarcast_payloads_id_seq OWNED BY solarcast_payloads.id;
+
+
+--
 -- Name: stations; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -829,6 +861,13 @@ ALTER TABLE ONLY rails_admin_histories ALTER COLUMN id SET DEFAULT nextval('rail
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY solarcast_payloads ALTER COLUMN id SET DEFAULT nextval('solarcast_payloads_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY stations ALTER COLUMN id SET DEFAULT nextval('stations_id_seq'::regclass);
 
 
@@ -949,6 +988,14 @@ ALTER TABLE ONLY measurements
 
 ALTER TABLE ONLY rails_admin_histories
     ADD CONSTRAINT rails_admin_histories_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: solarcast_payloads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY solarcast_payloads
+    ADD CONSTRAINT solarcast_payloads_pkey PRIMARY KEY (id);
 
 
 --
@@ -1322,4 +1369,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160607005457');
 INSERT INTO schema_migrations (version) VALUES ('20160614042818');
 
 INSERT INTO schema_migrations (version) VALUES ('20160615215212');
+
+INSERT INTO schema_migrations (version) VALUES ('20170112034228');
 
