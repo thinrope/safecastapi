@@ -578,7 +578,7 @@ CREATE TABLE measurements (
     height integer,
     surface character varying(255),
     radiation character varying(255),
-    raw_payload jsonb DEFAULT '{}'::jsonb NOT NULL
+    raw_payload json DEFAULT '{}'::json NOT NULL
 );
 
 
@@ -653,7 +653,6 @@ CREATE TABLE schema_migrations (
 CREATE TABLE solarcast_payloads (
     id integer NOT NULL,
     user_id integer NOT NULL,
-    payload bytea NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL
 );
