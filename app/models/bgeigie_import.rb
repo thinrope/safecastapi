@@ -30,11 +30,11 @@ class BgeigieImport < MeasurementImport # rubocop:disable Metrics/ClassLength
   ]
 
   def self.filter(query)
-    where("lower(name) LIKE :query
-           OR lower(source) LIKE :query
-           OR lower(description) LIKE :query
-           OR lower(cities) LIKE :query
-           OR lower(credits) LIKE :query", query: "%#{query.downcase}%")
+    where("lower(name) LIKE lower(:query)
+           OR lower(source) LIKE lower(:query)
+           OR lower(description) LIKE lower(:query)
+           OR lower(cities) LIKE lower(:query)
+           OR lower(credits) LIKE lower(:query)", query: "%#{query}%")
   end
 
   def self.by_status(status)

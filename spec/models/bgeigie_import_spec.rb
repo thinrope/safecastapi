@@ -7,6 +7,18 @@ RSpec.describe BgeigieImport, type: :model do
               user_id: user.id)
   end
 
+  describe '.filter' do
+    before do
+      Fabricate(:bgeigie_import, name: 'Václav Šik', user: user)
+    end
+
+    context 'with hacek' do
+      it 'should be able to filter' do
+        expect(described_class.filter('Šik').count).to eq(1)
+      end
+    end
+  end
+
   describe '#initialize' do
     it 'should set subtype to "None" by default' do
       expect(described_class.new.subtype).to eq('None')
